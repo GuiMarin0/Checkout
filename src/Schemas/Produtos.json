@@ -1,0 +1,80 @@
+{
+    "id": "6390dc58-3eb2-4b44-894b-1adb7335ce95",
+    "type": "product",
+    "schema": [
+        {
+            "section": "header",
+            "components": [
+                {
+                    "type": "banner",
+                    "data": {
+                        "path": "assets/..."
+                    }
+                }
+            ]
+        },
+        {
+            "section": "description",
+            "components": [
+                {
+                    "type": "product_list"
+                }
+            ]
+        },
+        {
+            "section": "customer",
+            "components": [
+                {
+                    "type": "name",
+                    "editable": true
+                },
+                {
+                    "type": "cpf_cnpj",
+                    "editable": true
+                },
+                {
+                    "type": "email",
+                    "editable": true
+                },
+                {
+                    "type": "phone",
+                    "editable": true
+                },
+                {
+                    "type": "address",
+                    "editable": false
+                }
+            ]
+        },
+        {
+            "section": "payment_methods",
+            "components": [
+                {
+                    "type": "credit_card"
+                },
+                {
+                    "type": "pix"
+                }
+            ]
+        },
+        {
+            "section": "more_informations",
+            "components": []
+        },
+        {
+            "section": "footer",
+            "components": [
+                {
+                    "type": "company_identification"
+                },
+                {
+                    "type": "company_phone"
+                },
+                {
+                    "type": "company_email"
+                }
+            ]
+        }
+    ],
+    "data": {}
+}

@@ -1,6 +1,6 @@
 import * as React from "react"
 import styled from "styled-components"
-import Button from "../components/botao"
+import Button from "../itensComponents/botao"
 import ipag from "../images/ipag.svg"
 
 const Global = styled.div`
@@ -33,7 +33,7 @@ const IndexPage = () => {
         <Texto>Checkout IPag</Texto>
         <img src={ipag} />
       </ContainerTitulo>
-      <Button texto="Continuar" width="60%" />
+      <Button texto="Continuar" width="60%" to="/link" />
     </Global>
   )
 }

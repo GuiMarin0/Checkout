@@ -1,0 +1,108 @@
+{
+    "id": "6390dc58-3eb2-4b44-894b-1adb7335ce95",
+    "type": "payment_link",
+    "schema": [
+        {
+            "session": "apply_value",
+            "components": [
+                "set_value"
+            ]
+        },
+        {
+            "session": "header",
+            "components": [
+                {
+                    "type": "company_image",
+                    "data": {
+                        "path": "assets/..."
+                    }
+                },
+                {
+                    "type": "company_name",
+                    "data": {
+                        "path": "assets/..."
+                    }
+                }
+            ]
+        },
+        {
+            "session": "description",
+            "components": [
+                {
+                    "type": "simple_description"
+                }
+            ]
+        },
+        {
+            "session": "customer",
+            "components": [
+                {
+                    "type": "name",
+                    "editable": true
+                },
+                {
+                    "type": "cpf_cnpj",
+                    "editable": true
+                },
+                {
+                    "type": "phone",
+                    "editable": true
+                }
+            ]
+        },
+        {
+            "session": "payment_methods",
+            "components": [
+                {
+                    "type": "credit_card"
+                },
+                {
+                    "type": "pix"
+                }
+            ]
+        },
+        {
+            "session": "more_informations",
+            "components": []
+        },
+        {
+            "session": "footer",
+            "components": [
+                {
+                    "type": "company_identification"
+                },
+                {
+                    "type": "company_phone"
+                },
+                {
+                    "type": "company_email"
+                }
+            ]
+        }
+    ],
+    "data": {
+        "id": 11,
+        "resource": "payment_links",
+        "attributes": {
+            "uuid": "7121bafe-d758-4601-8f13-9e4de869847c",
+            "external_code": "127",
+            "is_active": true,
+            "amount": 0,
+            "description": "LINK DE PAGAMENTO SUPER BACANA",
+            "buttons": {
+                "enable": true,
+                "one": 10,
+                "two": 25,
+                "three": 100
+            },
+            "header": "DOAÇÃO AVULSA",
+            "subHeader": "Doação destinada a campanha para as pessoas afetadas pelas enchentes no Rio Grande do Sul",
+            "expires_at": "2025-12-25 23:59:59",
+            "created_at": "2024-06-07 15:07:38",
+            "updated_at": "2024-06-07 15:07:38"
+        },
+        "links": {
+            "payment": "https://api.ipag.com.br/link?t=7121bafe-d758-4601-8f13-9e4de869847c"
+        }
+    }
+}

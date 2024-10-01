@@ -1,0 +1,165 @@
+{
+    "id": "9490dc58-3eb2-4b44-894b-1adb7335ce75",
+    "type": "billing",
+    "schema": [
+        {
+            "session": "header",
+            "components": [
+                {
+                    "type": "banner",
+                    "data": {
+                        "path": "/assets/Banner.webp"
+                    }
+                },
+                {
+                    "type": "company_image",
+                    "data": {
+                        "path": "/assets/Logo.svg"
+                    }
+                },
+                {
+                    "type": "company_name",
+                    "data": {
+                        "path": "assets/...",
+                        "path1": "Marmitex do Tião"
+                    }
+                }
+            ]
+        },
+        {
+            "session": "description",
+            "components": [
+                {
+                    "type": "simple_description"
+                }
+            ]
+        },
+        {
+            "session": "customer",
+            "components": [
+                {
+                    "type": "name",
+                    "editable": true
+                },
+                {
+                    "type": "cpf_cnpj",
+                    "editable": true
+                },
+                {
+                    "type": "email",
+                    "editable": true
+                }
+            ]
+        },
+        {
+            "session": "payment_methods",
+            "components": [
+                {
+                    "type": "credit_card"
+                },
+                {
+                    "type": "pix"
+                },
+                {
+                    "type": "boleto"
+                }
+            ]
+        },
+        {
+            "session": "more_informations",
+            "components": []
+        },
+        {
+            "session": "footer",
+            "components": [
+                {
+                    "type": "company_identification"
+                },
+                {
+                    "type": "company_phone"
+                },
+                {
+                    "type": "company_email"
+                }
+            ]
+        }
+    ],
+    "data": {
+        "id": 100000,
+        "resource": "charges",
+        "attributes": {
+            "is_active": true,
+            "status": "pending",
+            "amount": 150,
+            "type": "normal",
+            "frequency": 1,
+            "interval": "month",
+            "description": "Cobrança referente a negociação de débito pendente na Empresa X",
+            "starting_date": "2024-09-10",
+            "closing_date": "",
+            "auto_debit": false,
+            "callback_url": "https://api.ipag.test/retorno_charge",
+            "created_at": "2024-09-10 14:09:14",
+            "updated_at": "2024-09-10 14:09:14",
+            "customer": {
+                "id": 23799,
+                "resource": "customers",
+                "attributes": {
+                    "is_active": true,
+                    "name": "Tajao Borracha",
+                    "cpf_cnpj": "852.391.120-02",
+                    "email": "tajao@mail.me",
+                    "phone": "11 99999-9999",
+                    "created_at": "2020-09-08",
+                    "updated_at": "2020-09-08"
+                }
+            },
+            "installments": {
+                "data": [
+                    {
+                        "number": 1,
+                        "due_date": "2024-09-25",
+                        "amount": 150,
+                        "paid_amount": 0,
+                        "discount": 0,
+                        "payment_date": null,
+                        "description": "Cobrança referente a negociação de débito pendente na Empresa X",
+                        "payment": null
+                    }
+                ]
+            },
+            "products": {
+                "data": [
+                    {
+                        "id": 123,
+                        "resource": "products",
+                        "attributes": {
+                            "name": "Marmitex",
+                            "description": "Marmitex completa com arroz, feijão, bife e salada",
+                            "unit_price": 12,
+                            "sku": "marmitex-p",
+                            "image_url": "https://i.pinimg.com/564x/1a/5f/1d/1a5f1d57e34440051d2dbced7890dc1d.jpg",
+                            "max_quantity": 1,
+                            "dimensions": {
+                                "height": 0,
+                                "width": 0,
+                                "length": 0,
+                                "weight": 0,
+                                "weight_measure": "kg",
+                                "sizes_measure": "cm"
+                            },
+                            "links": {
+                                "payment": "https://api.ipag.com.br/service/produto?token=eb160de1de89d9058fcb0b968dbbbd6890cfa50c87a10937eb5cb23e7072e8e966878e57"
+                            },
+                            "created_at": "",
+                            "updated_at": "2019-09-20 09:42:30"
+                        }
+                    }
+                ]
+            },
+            "links": {
+                "payment": "https://api.ipag.com.br/vpos?billing=0771fc6f0f4b1d7d1bb73bbbe14e0e31"
+            }
+        }
+    }
+}

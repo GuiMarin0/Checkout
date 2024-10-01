@@ -1,18 +1,16 @@
 import * as React from "react"
 import styled from "styled-components"
-import Input from "../components/input"
-import ItemPagamento from "../components/itemPagamento"
-import cartao_cinza from "../images/cartao-cinza.svg"
-import cartao_azul from "../images/cartao-azul.svg"
-import pix_cinza from "../images/pix-cinza.svg"
-import pix_verde from "../images/pix-verde.svg"
-import mais_cinza from "../images/mais-cinza.svg"
-import mais_preto from "../images/mais-preto.svg"
+
 import { useState, useEffect } from "react"
-import EscolheCartao from "../components/escolhaCartao"
-import Banner from "../components/banner"
-import Button from "../components/botao"
-import Carrinho from "../components/carrinho."
+import Button from "../itensComponents/botao"
+
+import HeaderSection from "../Sections/Header"
+import DescricaoSection from "../Sections/Descricao"
+import CompradorSection from "../Sections/Comprador"
+import PagamentoSection from "../Sections/Pagamento"
+
+import CobrancaJson from "../Schemas/Cobranca.json"
+
 
 const Global = styled.div`
   display: flex;
@@ -30,56 +28,9 @@ const SectionCheckout = styled.form`
     border-radius: 10px;
 `
 
-const InputsJuntos = styled.form`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-`
-
-const Itens = styled.div`
-    display: flex;
-    flex-direction: row;
-`
-
-const TituloSection = styled.h2`
-    font-family: sans-serif;
-`
-
-const TituloSectionThin = styled.h2`
-    font-weight: 100;
-    font-family: sans-serif;
-    color: gray;
-`
-
-const Detalhes = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-    margin-bottom: 20px;
-`
-
-const SpanDetalhes = styled.span`
-    font-family: sans-serif;
-    font-weight: 700;
-    font-size: 20px;
-`
-
-const SpanPreco = styled.span`
-    font-family: sans-serif;
-    font-weight: 100;
-`
-
-const estados = [
-    "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA",
-    "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN",
-    "RS", "RO", "RR", "SC", "SP", "SE", "TO"
-];
-
 const CheckoutPage = () => {
 
-    const [FormPagamento, setFormaPagamento] = useState("cartao")
-
+    const [FormPagamento, setFormaPagamento] = useState("cartao");
     const [Dados, setDados] = useState({
         email: "",
         confirmaEmail: "",
@@ -93,16 +44,7 @@ const CheckoutPage = () => {
         endereco: "",
         numero: "",
         complemento: ""
-    })
-
-    const InputChange = (e) => {
-        const { name, value } = e.target;
-        setDados({
-            ...Dados,
-            [name]: value,
-        })
-    }
-
+    });
     const [DadosPagamento, setDadosPagamento] = useState({
         numeroCartao: "",
         nomeTitular: "",
@@ -111,6 +53,23 @@ const CheckoutPage = () => {
         cvv: "",
         parcelas: ""
     })
+
+    const [schemaData, setSchemaData] = useState(null)
+    const [schemaHeader, setSchemaHeader] = useState(null)
+    const [schemaDescription, setSchemaDescription] = useState(null)
+    const [schemaCustomer, setSchemaCustomer] = useState(null)
+    const [schemaPayment, setSchemaPayment] = useState(null)
+    const [schemaMoreInformations, setSchemaMoreInformations] = useState(null)
+    const [schemaFooter, setSchemaFooter] = useState(null)
+    const [products, setProducts] = useState([])
+
+    const InputChange = (e) => {
+        const { name, value } = e.target;
+        setDados({
+            ...Dados,
+            [name]: value,
+        })
+    }
 
     const PagamentoChange = (e) => {
         const { name, value } = e.target;
@@ -125,183 +84,98 @@ const CheckoutPage = () => {
         setFormaPagamento(FormaPagamento);
     }
 
+    useEffect(() => {
+        if (schemaData) {
+            setSchemaHeader(schemaData.schema[0].components);
+            setSchemaDescription(schemaData.schema[1].components);
+            setSchemaCustomer(schemaData.schema[2].components);
+            setSchemaPayment(schemaData.schema[3].components);
+            setSchemaMoreInformations(schemaData.schema[4].components);
+            setSchemaFooter(schemaData.schema[5].components);
+            setProducts(schemaData.data.attributes.products.data);
+
+            // Carrega os dados do cliente no estado
+            setDados({
+                email: schemaData.data.attributes.customer.attributes.email || "",
+                nomeCompleto: schemaData.data.attributes.customer.attributes.name || "",
+                cpfCnpj: schemaData.data.attributes.customer.attributes.cpf_cnpj || "",
+                celular: schemaData.data.attributes.customer.attributes.phone || "",
+                // Aqui também incluir o endereço, se necessário
+            });
+
+        }
+    }, [schemaData])
+
+    useEffect(() => {
+        setSchemaData(CobrancaJson);
+    }, [])
+
+    //tentei simular uma chamada a api localmente, mas não deu certo
+    /*useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch('/Schemas/Cobranca.json'); // Caminho para o arquivo JSON local
+                const data = await response.json();
+                setSchemaData(data); // Atualiza o estado com o JSON recebido
+            } catch (error) {
+                console.error("Erro ao carregar o JSON", error);
+            }
+        };
+
+        fetchData();
+    }, [])*/
+
+    if (!schemaData) {
+        return <div>CARREGANDO...</div>
+    }
+
     return (
         <Global>
-            <Banner />
+
+            {/*COMPONENTIZADO TOTALMENTE*/}
+            {/*JA ESTÁ DINÂMICO PELO SCHEMA*/}
+            <HeaderSection schemaHeader={schemaHeader} />
+
             <SectionCheckout>
 
-                <Carrinho />
-                <hr />
-                {/*------------------------------------------------------------------------------*/}
-
-                <TituloSection>Identidade</TituloSection>
-                {/*Email*/}
-                <Input
-                    label="Seu Email"
-                    placeholder="Digite seu email para receber a compra"
-                    name="email"
-                    value={Dados.email}
-                    onChange={InputChange} />
-
-                {/*Confirmar Email*/}
-                <Input
-                    label="Confirme Email"
-                    placeholder="Digite novamente seu email"
-                    name="confirmaEmail"
-                    value={Dados.confirmaEmail}
-                    onChange={InputChange} />
-
-                {/*Nome*/}
-                <Input
-                    label="Nome Completo"
-                    placeholder="Digite seu nome completo"
-                    name="nomeCompleto"
-                    value={Dados.nomeCompleto}
-                    onChange={InputChange} />
-                <InputsJuntos>
-
-                    {/*Identidade*/}
-                    <Input
-                        label="CPF/CNPJ"
-                        placeholder="Digite o número do seu CPF ou CNPJ"
-                        width="45%"
-                        name="cpfCnpj"
-                        value={Dados.cpfCnpj}
-                        onChange={InputChange} />
-
-                    {/*Celular*/}
-                    <Input
-                        label="Celular"
-                        placeholder="(18) 12345-6789"
-                        width="45%"
-                        name="celular"
-                        value={Dados.celular}
-                        onChange={InputChange} />
-                </InputsJuntos>
-
-                {/*------------------------------------------------------------------------------*/}
+                {/*COMPONENTIZADO PARCIALMENTE, FALTANDO A LISTA DE PRODUTOS QUE NÃO ENTENDI MUITO BEM*/}
+                {/*PERGUNTAR AO JOÃO TERÇA-FEIRA*/}
+                {/*JA ESTÁ DINÂMICO PELO SCHEMA*/}
+                <DescricaoSection
+                    schemaDescription={schemaDescription}
+                    products={products} />
 
                 <hr />
-                <TituloSection>Endereço</TituloSection>
-                {/*CEP*/}
-                <Input
-                    label="Código postal (CEP)"
-                    placeholder="Digite aqui seu CEP"
-                    name="cep"
-                    value={Dados.cep}
-                    onChange={InputChange} />
-                <InputsJuntos>
 
-                    {/*Estado*/}
-                    <Input
-                        label="Estado"
-                        placeholder="Selecione"
-                        width="20%"
-                        opcoes={estados}
-                        name="estado"
-                        value={Dados.estado}
-                        onChange={InputChange} />
+                {/*COMPONENTIZADO TOTALMENTE*/}
+                <CompradorSection
+                    Dados={Dados}
+                    InputChange={InputChange}
 
-                    {/*Cidade*/}
-                    <Input
-                        label="Cidade"
-                        placeholder="Onde voce mora?"
-                        width="35%"
-                        name="cidade"
-                        value={Dados.cidade}
-                        onChange={InputChange} />
-
-                    {/*Bairro*/}
-                    <Input
-                        label="Bairro"
-                        placeholder="Digite aqui o seu bairro"
-                        width="35%"
-                        name="bairro"
-                        value={Dados.bairro}
-                        onChange={InputChange} />
-                </InputsJuntos>
-
-                {/*Endereço*/}
-                <Input
-                    label="Endereço"
-                    placeholder="Qual seu endereço?"
-                    name="endereco"
-                    value={Dados.endereco}
-                    onChange={InputChange} />
-                <InputsJuntos>
-
-                    {/*Numero*/}
-                    <Input
-                        label="Número"
-                        placeholder="000"
-                        width="45%"
-                        name="numero"
-                        value={Dados.numero}
-                        onChange={InputChange} />
-
-                    {/*Complemento*/}
-                    <Input
-                        label="Complemento"
-                        placeholder="Apto/Bloco/Fundos..."
-                        width="45%"
-                        name="complemento"
-                        value={Dados.complemento}
-                        onChange={InputChange} />
-                </InputsJuntos>
-
-                {/*------------------------------------------------------------------------------*/}
+                    schemaCustomer={schemaCustomer}
+                />
 
                 <hr />
-                <TituloSection>Pagamento</TituloSection>
-                {/*MÉTODO DE PAGAMENTO*/}
-                <Itens>
-                    <ItemPagamento
-                        imageSrc={FormPagamento === 'cartao'
-                            ? cartao_azul
-                            : cartao_cinza}
-                        label="Cartão de Crédito"
-                        value="cartao"
-                        selectedItem={FormPagamento}
-                        onClick={() => MetodoChange("cartao")} />
-                    <ItemPagamento
-                        imageSrc={FormPagamento === 'pix'
-                            ? pix_verde
-                            : pix_cinza}
-                        label="Pix"
-                        value="pix"
-                        selectedItem={FormPagamento}
-                        onClick={() => MetodoChange("pix")} />
-                    <ItemPagamento
-                        imageSrc={FormPagamento === 'outros'
-                            ? mais_preto
-                            : mais_cinza}
-                        label="Outros"
-                        value="outros"
-                        disabled={true}
-                        selectedItem={FormPagamento}
-                        onClick={() => MetodoChange("outros")} />
-                </Itens>
 
-                {/*------------------------------------------------------------------------------*/}
+                {/*COMPONENTIZADO, FALTA DETALHES DO BOLETO E DO PIX*/}
+                <PagamentoSection
+                    MetodoChange={MetodoChange}
+                    FormPagamento={FormPagamento}
+                    DadosPagamento={DadosPagamento}
+                    PagamentoChange={PagamentoChange}
 
-                {/*DADOS DO PAGAMENTO*/}
-                {FormPagamento === "cartao" && (
-                    <EscolheCartao
-                        DadosPagamento={DadosPagamento}
-                        PagamentoChange={PagamentoChange} />
-                )}
+                    schemaPayment={schemaPayment}
+                />
 
-                {/*------------------------------------------------------------------------------*/}
-                <hr />
-                {/*DETALHES COMPRA*/}
-                <TituloSectionThin>Detalhe da compra</TituloSectionThin>
-                <Detalhes>
-                    <SpanDetalhes>Curso Gatsby 2024</SpanDetalhes>
-                    <SpanPreco>{DadosPagamento.parcelas}</SpanPreco>
-                </Detalhes>
-                <Button texto="Comprar Agora" />
+                {/*FALTA O ESPAÇO LIVRE QUE NÃO ENTENDI MUITO BEM TAMBÉM*/}
+                {/*PERGUNTAR AO JOÃO TERÇA-FEIRA*/}
+
+                <br />
+
+                <Button texto="Comprar Agora" to="" />
 
             </SectionCheckout>
+            {/*falta footer*/}
         </Global>
     )
 }

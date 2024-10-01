@@ -1,0 +1,69 @@
+{
+    "id": "6390dc58-3eb2-4b44-894b-1adb7335ce95",
+    "type": "plan",
+    "schema": [
+        {
+            "section": "header",
+            "components": [
+                {
+                    "type": "banner",
+                    "data": {
+                        "path": "assets/..."
+                    }
+                }
+            ]
+        },
+        {
+            "section": "description",
+            "components": [
+                {
+                    "type": ""
+                }
+            ]
+        },
+        {
+            "section": "customer",
+            "components": [
+                {
+                    "type": "name",
+                    "editable": true
+                },
+                {
+                    "type": "cpf_cnpj",
+                    "editable": true
+                },
+                {
+                    "type": "phone",
+                    "editable": true
+                }
+            ]
+        },
+        {
+            "section": "payment_methods",
+            "components": [
+                {
+                    "type": "credit_card"
+                }
+            ]
+        },
+        {
+            "section": "more_informations",
+            "components": []
+        },
+        {
+            "section": "footer",
+            "components": [
+                {
+                    "type": "company_identification"
+                },
+                {
+                    "type": "company_phone"
+                },
+                {
+                    "type": "company_email"
+                }
+            ]
+        }
+    ],
+    "data": {}
+}
